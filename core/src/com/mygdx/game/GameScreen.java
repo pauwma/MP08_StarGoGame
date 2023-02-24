@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
 
         //HUD
         game.batch.begin();
-        game.smallFont.draw(game.batch, "Score: " + (int)score, 10, 470);
+        game.smallFont.draw(game.batch, "" + (int)score, 10, 470);
         game.batch.end();
 
 
@@ -86,7 +86,7 @@ public class GameScreen implements Screen {
 
 
         // Comprova si cal generar un obstacle nou
-        if (TimeUtils.nanoTime() - lastObstacleTime > 1500000000)
+        if (TimeUtils.nanoTime() - lastObstacleTime > 1000000000)
             spawnObstacle();
 
         // Comprova si les tuberies colisionen amb el jugador
@@ -131,20 +131,18 @@ public class GameScreen implements Screen {
         // Crear un objeto Random
         Random random = new Random();
 
-        int nAsteroides = random.nextInt(2)+1;
-        for (int x = 0; x < nAsteroides; x++){
-            // Generar un número aleatorio entre 1 y 6 (ambos incluidos)
-            int asteroidNumber = random.nextInt(6) + 1;
-            String asteroidFilename = "asteroide_" + asteroidNumber + ".png";
-            Pipe pipe1 = new Pipe(asteroidFilename);
-            pipe1.setY(MathUtils.random(0, 600));
-            pipe1.setX(800);
-            pipe1.setUpsideDown(true);
-            pipe1.setManager(game.manager);
-            obstacles.add(pipe1);
-            stage.addActor(pipe1);
-            lastObstacleTime = TimeUtils.nanoTime();
-        }
+        int asteroidNumber = random.nextInt(6) + 1;
+        String asteroidFilename = "asteroide_" + asteroidNumber + ".png";
+
+        Pipe pipe1 = new Pipe(asteroidFilename);
+        pipe1.setY(MathUtils.random(0, 401));
+        pipe1.setX(800);
+        pipe1.setUpsideDown(true);
+        pipe1.setManager(game.manager);
+        obstacles.add(pipe1);
+        stage.addActor(pipe1);
+        lastObstacleTime = TimeUtils.nanoTime();
+
     }
     @Override
     public void resize(int width, int height) {

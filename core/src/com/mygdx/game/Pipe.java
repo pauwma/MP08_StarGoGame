@@ -16,6 +16,7 @@ public class Pipe extends Actor {
     AssetManager manager;
     boolean scoreAdded;
     String asteroidImage;
+    private float rotation;
 
     Pipe(String image){
         setSize(64, 64);
