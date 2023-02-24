@@ -21,8 +21,12 @@ public class Bird extends Game {
 
         manager = new AssetManager();
         manager.load("ufo.png", Texture.class);
-        manager.load("pipe_up.png", Texture.class);
-        manager.load("pipe_down.png", Texture.class);
+        manager.load("asteroide_1.png", Texture.class);
+        manager.load("asteroide_2.png", Texture.class);
+        manager.load("asteroide_3.png", Texture.class);
+        manager.load("asteroide_4.png", Texture.class);
+        manager.load("asteroide_5.png", Texture.class);
+        manager.load("asteroide_6.png", Texture.class);
         manager.load("background.png", Texture.class);
         manager.load("flap.wav", Sound.class);
         manager.load("fail.wav", Sound.class);

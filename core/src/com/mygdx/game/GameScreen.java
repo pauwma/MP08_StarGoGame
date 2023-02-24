@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Iterator;
+import java.util.Random;
 
 public class GameScreen implements Screen {
     final Bird game;
@@ -124,23 +125,26 @@ public class GameScreen implements Screen {
     }
     private void spawnObstacle() {
         // Calcula la alçada de l'obstacle aleatòriament
-        float holey = MathUtils.random(50, 230);
+        float holey = MathUtils.random(0, 600);
         // Crea dos obstacles: Una tubería superior i una inferior
-        Pipe pipe1 = new Pipe();
-        pipe1.setX(800);
-        pipe1.setY(holey - 230);
-        pipe1.setUpsideDown(true);
-        pipe1.setManager(game.manager);
-        obstacles.add(pipe1);
-        stage.addActor(pipe1);
-        Pipe pipe2 = new Pipe();
-        pipe2.setX(800);
-        pipe2.setY(holey + 200);
-        pipe2.setUpsideDown(false);
-        pipe2.setManager(game.manager);
-        obstacles.add(pipe2);
-        stage.addActor(pipe2);
-        lastObstacleTime = TimeUtils.nanoTime();
+
+        // Crear un objeto Random
+        Random random = new Random();
+
+        int nAsteroides = random.nextInt(2)+1;
+        for (int x = 0; x < nAsteroides; x++){
+            // Generar un número aleatorio entre 1 y 6 (ambos incluidos)
+            int asteroidNumber = random.nextInt(6) + 1;
+            String asteroidFilename = "asteroide_" + asteroidNumber + ".png";
+            Pipe pipe1 = new Pipe(asteroidFilename);
+            pipe1.setY(MathUtils.random(0, 600));
+            pipe1.setX(800);
+            pipe1.setUpsideDown(true);
+            pipe1.setManager(game.manager);
+            obstacles.add(pipe1);
+            stage.addActor(pipe1);
+            lastObstacleTime = TimeUtils.nanoTime();
+        }
     }
     @Override
     public void resize(int width, int height) {

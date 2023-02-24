@@ -1,28 +1,24 @@
-
-
 package com.mygdx.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.Random;
 
-public class Pipe extends Actor {
+public class Asteroide extends Actor {
     Rectangle bounds;
-    boolean upsideDown;
     AssetManager manager;
     boolean scoreAdded;
-    String asteroidImage;
 
-    Pipe(String image){
+    Asteroide(){
         setSize(64, 64);
         bounds = new Rectangle();
         setVisible(false);
         scoreAdded=false;
-        asteroidImage = image;
     }
 
     @Override
@@ -38,21 +34,21 @@ public class Pipe extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        // Crear un objeto Random
+        Random random = new Random();
+
+        // Generar un número aleatorio entre 1 y 6 (ambos incluidos)
+        int asteroidNumber = random.nextInt(6) + 1;
 
         // Seleccionar el nombre de archivo correspondiente al número generado
-        batch.draw( manager.get(asteroidImage, Texture.class), getX(), getY() );
+        String asteroidFilename = "asteroide_" + asteroidNumber + ".png";
+
+        // Cargar la imagen correspondiente usando el TextureManager
+        Texture asteroidTexture = manager.get(asteroidFilename, Texture.class);
     }
 
     public Rectangle getBounds() {
         return bounds;
-    }
-
-    public boolean isUpsideDown() {
-        return upsideDown;
-    }
-
-    public void setUpsideDown(boolean upsideDown) {
-        this.upsideDown = upsideDown;
     }
 
     public void setManager(AssetManager manager) {
