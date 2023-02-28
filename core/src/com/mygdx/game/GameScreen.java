@@ -24,6 +24,12 @@ public class GameScreen implements Screen {
     long lastObstacleTime;
     float score;
 
+    float spawnTime; // * 1 sec = 1000
+
+    int nNivel;
+    int scoreNivel;
+    int velocidad;
+
     public GameScreen(final Bird gam) {
         this.game = gam;
         // create the camera and the SpriteBatch
@@ -38,6 +44,11 @@ public class GameScreen implements Screen {
         obstacles = new Array<Pipe>();
         spawnObstacle();
         score = 0;
+
+        velocidad = 200;
+        spawnTime = 1500;
+        nNivel = 0;
+        scoreNivel = 10;
     }
     @Override
     public void render(float delta) {
@@ -68,6 +79,11 @@ public class GameScreen implements Screen {
         game.smallFont.draw(game.batch, "" + (int)score, 10, 470);
         game.batch.end();
 
+        game.batch.begin();
+        game.smallFont.draw(game.batch, "LVL " + (int)nNivel, 650, 470);
+        game.batch.end();
+
+
 
         if (Gdx.input.justTouched()) {
             game.manager.get("flap.wav", Sound.class).play();
@@ -86,7 +102,7 @@ public class GameScreen implements Screen {
 
 
         // Comprova si cal generar un obstacle nou
-        if (TimeUtils.nanoTime() - lastObstacleTime > 1000000000)
+        if (TimeUtils.millis() - lastObstacleTime > spawnTime)
             spawnObstacle();
 
         // Comprova si les tuberies colisionen amb el jugador
@@ -113,6 +129,13 @@ public class GameScreen implements Screen {
             }
         }
 
+        if (score == scoreNivel){
+            nNivel++;
+            velocidad+=50;
+            scoreNivel += 10;
+            spawnTime-=100;
+        }
+
 
         if(dead) {
             game.manager.get("fail.wav", Sound.class).play();
@@ -137,11 +160,12 @@ public class GameScreen implements Screen {
         Pipe pipe1 = new Pipe(asteroidFilename);
         pipe1.setY(MathUtils.random(0, 401));
         pipe1.setX(800);
+        pipe1.velocidad = velocidad;
         pipe1.setUpsideDown(true);
         pipe1.setManager(game.manager);
         obstacles.add(pipe1);
         stage.addActor(pipe1);
-        lastObstacleTime = TimeUtils.nanoTime();
+        lastObstacleTime = TimeUtils.millis();
 
     }
     @Override

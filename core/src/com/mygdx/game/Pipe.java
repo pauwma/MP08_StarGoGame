@@ -17,18 +17,22 @@ public class Pipe extends Actor {
     boolean scoreAdded;
     String asteroidImage;
     private float rotation;
+    float velocidad;
 
     Pipe(String image){
-        setSize(64, 64);
+        Random random = new Random();
+        int randomSize = random.nextInt(80-48) + 48;
+        setSize(randomSize, randomSize);
         bounds = new Rectangle();
         setVisible(false);
         scoreAdded=false;
         asteroidImage = image;
+        this.velocidad = 1;
     }
 
     @Override
     public void act(float delta) {
-        moveBy(-200 * delta, 0);
+        moveBy(-velocidad * delta, 0);
         bounds.set(getX(), getY(), getWidth(), getHeight());
         if(!isVisible())
             setVisible(true);
